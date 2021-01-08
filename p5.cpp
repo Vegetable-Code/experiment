@@ -17,15 +17,27 @@ struct type{
 	struct type *next;	
 }Book;
 typedef struct type * BooksManage;
- 
-int main() {
-	int num;
-	// 系统菜单
+
+// 系统菜单
+void menu() {
+	system("cls");
 	printf("\n*********欢迎来到*********\n");
 	printf("\n    1.图书录入功能\n");
 	printf("\n    2.图书浏览及保存功能\n");
 	printf("\n    3.图书查询功能\n");
 	printf("\n********图书管理系统********\n");
+}
+
+// 口令验证
+void check() {
+	printf("\n********图书管理系统********\n") 
+	printf("\n    账号：");
+	scanf("")
+}
+
+int main() {
+	int num;
+	printf("test");
 	printf("\n请按照您的需要输入相应的数字：");
 	scanf("%d", &num);
 	switch(num) {
