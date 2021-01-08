@@ -5,7 +5,7 @@ struct Student{
 	char stuNum[20];
 	char name[20];
 	float score[3];
-};
+}; 
 
 // 功能一 
 struct Student stu[10];
@@ -34,25 +34,21 @@ int main() {
 	}
 	printf("\n单门成绩最高为第%d名同学：%s %s %.2f\n", k + 1, stu[k].stuNum, stu[k].name, maxScore);
 	// 功能四
-	 for(i = 0; i < 2; i++) {
-	 	for(j = 0; j < 3; j++) {
+	for(i = 0; i < 2; i++) {
+		for(j = 0; j < 3; j++) {
 	 		sum[i] += stu[i].score[j];
 	 	}
-	 }
-	 k = 0; 
-	 for(i = 1; i < 2; i++) {
-	 	if(sum[k] < sum[i]) {
+	}
+	k = 0; 
+	for(i = 1; i < 2; i++) {
+		if(sum[k] < sum[i]) {
 	 		k = i;
 	 	}
-	 }
-	 printf("\n平均分最高为第%d名同学：%s %s %.2f\n", k + 1, stu[k].stuNum, stu[k].name, sum[k]);
-	 // 功能五
-	 const char* filename1 = "F:/X.txt"; // 设置文件放置位置
-    FILE* fp1 = fopen(filename1 , "w"); // fp1指针操作文件 
-	if (fp1 == NULL) { // 文件打开失败 
-	    puts("Fail to open file!");
-	    exit(1);
 	}
-	fclose(fp1); // 关闭文件
-        printf("Data saved.\n"); 
+	printf("\n平均分最高为第%d名同学：%s %s %.2f\n", k + 1, stu[k].stuNum, stu[k].name, sum[k]);
+	// 功能五
+	FILE *fp;
+	fopen(&fp, "baocun.txt", "wb");
+	fwrite(stu, sizeof(Student), 2, fp); // 写N条信息全部写入文件
+	fclose(fp); 	
 }
