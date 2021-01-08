@@ -30,14 +30,30 @@ void menu() {
 
 // 口令验证
 void check() {
-	printf("\n********图书管理系统********\n") 
+	char name[6], pass[6]; // 待输入的账号和密码 
+	char anum[6] = "admin", bnum[6] = "admin"; // 管理员账号和密码 
+	printf("\n********图书管理系统********\n");
 	printf("\n    账号：");
-	scanf("")
-}
+	scanf("%s", &name);
+	printf("\n    密码：");
+	scanf("%s", &pass);
+	// 验证口令：简略 
+	for(int i = 0; i < 6; i++) {
+		if(name[i] == anum[i] && pass[i] == bnum[i]) {
+			
+		} else {
+			printf("\n    密码错误!"); 
+			Sleep(3000); // 延迟效果 
+			system("cls"); // 清屏 
+			check(); // 自调 
+		}
+	}
+	menu();
+} 
 
 int main() {
 	int num;
-	printf("test");
+	check();
 	printf("\n请按照您的需要输入相应的数字：");
 	scanf("%d", &num);
 	switch(num) {
