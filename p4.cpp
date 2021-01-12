@@ -18,9 +18,8 @@ void delay() {
 // 学生信息 
 struct Student{
 	char stuNum[20];
-	char name[20];
+	char name;
 	float score[ALL_cls];
-	float average;
 }; 
 
 struct Student stu[MAX_NUM];
@@ -35,7 +34,7 @@ void input() {
 	}
 	for(i = 0; i < MAX_NUM; i++) {
 		printf("\t");
-		scanf("%s %s %f %f %f", stu[i].stuNum, &stu[i].name, &stu[i].score[0], &stu[i].score[1], &stu[i].score[2]);
+		scanf("%s %c %f %f %f", stu[i].stuNum, &stu[i].name, &stu[i].score[0], &stu[i].score[1], &stu[i].score[2]);
 		fwrite(&stu[i], sizeof(struct Student), 1, fp);
 		fclose(fp);
 	}
@@ -57,7 +56,7 @@ void single() {
 			}
 		}
 	}
-	printf("\n单门成绩最高为第%d名同学：%s %s %.2f\n", k + 1, stu[k].stuNum, stu[k].name, maxScore);
+	printf("\n单门成绩最高为第%d名同学：%s %c %.2f\n", k + 1, stu[k].stuNum, stu[k].name, maxScore);
 } 
 
 // 平均分最高
@@ -78,10 +77,10 @@ void aver() {
 			j = i;
 		}
 	}
-	printf("\n平均分最高为第%d名同学：%s %s %.2f\n", j + 1, stu[j].stuNum, stu[j].name, maxAver);
+	printf("\n平均分最高为第%d名同学：%s %c %.2f\n", j + 1, stu[j].stuNum, stu[j].name, maxAver);
 } 
 
-// 读取全部 
+// 读取函数 
 void readAll() {
 	int i;
 	FILE *fp;
@@ -94,17 +93,44 @@ void readAll() {
 	for(i = 0; i < MAX_NUM; i++) {
 	    fseek(fp, i * sizeof(struct Student), 0);
 		fread(&stu[i], sizeof(struct Student), 1, fp);
-		printf("%s\t%s\t%.2f\t%.2f\t%.2f\n", stu[i].stuNum, stu[i].name, stu[i].score[0], stu[i].score[1], stu[i].score[2]);		
+		printf("%s\t%c\t%.2f\t%.2f\t%.2f\n", stu[i].stuNum, stu[i].name, stu[i].score[0], stu[i].score[1], stu[i].score[2]);		
 	}
-	printf("\n**************学生信息**************\n");
-	fclose(fp);
+	printf("\n**************学生信息**************\n\n");
 }
 
 // 交换函数
-void swap(int *a, int *b) {
+void swap(char *a, char *b) {
 	int temp = *a;
 	*a = *b;
 	*b = temp;
+} 
+
+// 排序保存并读取函数
+void sort() {
+	int i, j, k;
+	float aver[MAX_NUM] = {0};
+	for(i = 0; i < MAX_NUM; i++) {
+		for(j = 0; j < ALL_cls; j++) {
+			aver[i] += stu[i].score[j] / 3;
+		}
+	}
+	FILE *fp;
+	if((fp = fopen("stud.dat", "rb")) == NULL) {
+		printf("cannot open file\n");
+		exit(0);
+	}
+	for(i = 0; i < MAX_NUM - 1; i++) {
+		k = i;
+		for(j = i + 1; j < MAX_NUM; j++) {
+			if(aver[j] > aver[k])
+				k = j; 
+		}
+		swap(&stu[k].name, &stu[i].name);
+	}
+	printf("平均分排序为：");
+	for(i = 0; i < MAX_NUM; i++) {
+		printf("%c ", stu[i].name);
+	}
 } 
 
 int main() {	
@@ -112,4 +138,18 @@ int main() {
 	single();
 	aver();
 	readAll();
+	sort();
 }
+
+/*
+0 a 10 20 30
+1 b 20 30 40
+2 c 25 35 45 
+3 d 15 25 35
+4 e 45 60 20
+5 f 80 60 10
+6 g 80 90 60
+7 h 50 16 75
+8 i 23 56 46
+9 j 83 65 40
+*/
